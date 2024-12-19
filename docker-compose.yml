@@ -15,8 +15,6 @@ services:
       WORDPRESS_DB_PASSWORD: "${DB_ROOT_PASSWORD}"
     depends_on:
       - db
-
-
   db:
     image: mysql:latest # https://hub.docker.com/_/mysql/ - or mariadb https://hub.docker.com/_/mariadb
     # platform: linux/x86_64  # Uncomment if your machine is running on arm (ex: Apple Silicon processor)
@@ -32,5 +30,31 @@ services:
       MYSQL_DATABASE: "${DB_NAME}"
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
 
+  code-server:
+    image: 'lscr.io/linuxserver/code-server:latest'
+    environment:
+      - SERVICE_FQDN_CODESERVER_8443
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+      - PASSWORD=$SERVICE_PASSWORD_64_PASSWORDCODESERVER
+      - SUDO_PASSWORD=$SERVICE_PASSWORD_SUDOCODESERVER
+      - DEFAULT_WORKSPACE=/config/workspace
+    volumes:
+      - 'code-server-config:/config'
+      - './wp-app:/config/workspace/wp-app' # Mount the WordPress project
+      - './plugin:/config/workspace/plugin'
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - '-f'
+        - 'http://127.0.0.1:8443'
+      interval: 2s
+      timeout: 10s
+      retries: 15
+    labels:
+      - 'traefik.http.middlewares.mybasicauthjavascripts.basicauth.users=hamza:$2a$12$kYDUYPUaIIxycjpy4ITEKeevmu5rsacjmt61LqiiwmVUwClVVdx9y'
 volumes:
   db_data:
+  code-server-config:

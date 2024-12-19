@@ -42,6 +42,8 @@ RUN set -ex; \
 		bcmath \
 		exif \
 		gd \
+        pdo \
+        pdo_mysql \
 		intl \
 		mysqli \
 		zip \
