@@ -2,7 +2,9 @@ version: '3'
 
 services:
   wp:
-    build: ./wordpress
+    build:
+      context: ..
+      dockerfile: ./wordpress/Dockerfile
     volumes:
       - './config/wp_php.ini:/usr/local/etc/php/conf.d/conf.ini'
       - './wp-app:/var/www/html' # Full wordpress project

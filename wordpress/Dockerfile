@@ -177,7 +177,7 @@ RUN set -eux; \
 
 
 COPY --chown=www-data:www-data wp-config-docker.php /usr/src/wordpress/
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY ./wordpress/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
@@ -190,6 +190,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php composer-setup.php && \
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer
+
+
+COPY ./plugin /var/www/html/wp-content/plugins/learning
+RUN chown -R www-data:www-data /var/www/html/wp-content/plugins/learning
 
 USER www-data
 
