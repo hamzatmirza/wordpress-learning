@@ -4,9 +4,9 @@ services:
   wp:
     build: ./wordpress
     volumes:
-      - ./config/wp_php.ini:/usr/local/etc/php/conf.d/conf.ini
-      - ./wp-app:/var/www/html # Full wordpress project
-      - ./plugin/:/var/www/html/wp-content/plugins/learning # Plugin development
+      - './config/wp_php.ini:/usr/local/etc/php/conf.d/conf.ini'
+      - './wp-app:/var/www/html' # Full wordpress project
+      - './plugin:/var/www/html/wp-content/plugins/learning' # Plugin development
       #- ./theme-name/trunk/:/var/www/html/wp-content/themes/theme-name # Theme development
     environment:
       WORDPRESS_DB_HOST: db
