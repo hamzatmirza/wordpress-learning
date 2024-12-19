@@ -4,5 +4,6 @@ plugin/.phpunit.result.cache
 plugin/build/*
 plugin/build/entrypoints.json
 plugin/build/manifest.json
-
+wp-app/*
 .idea/*
+.env

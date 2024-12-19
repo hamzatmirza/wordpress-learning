@@ -131,6 +131,10 @@ RUN set -eux; \
 # (replace all instances of "%h" with "%a" in LogFormat)
 	find /etc/apache2 -type f -name '*.conf' -exec sed -ri 's/([[:space:]]*LogFormat[[:space:]]+"[^"]*)%h([^"]*")/\1%a\2/g' '{}' +
 
+
+
+VOLUME /var/www/html
+
 RUN set -eux; \
 	version='6.7.1'; \
 	sha1='dfb745d4067368bb9a9491f2b6f7e8d52d740fd1'; \
@@ -169,10 +173,12 @@ RUN set -eux; \
 	chown -R www-data:www-data wp-content; \
 	chmod -R 1777 wp-content
 
-VOLUME /var/www/html
 
 COPY --chown=www-data:www-data wp-config-docker.php /usr/src/wordpress/
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
